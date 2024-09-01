@@ -1,0 +1,7 @@
+<select name="stage_id" hx-put="/leads/{{ lead.id }}/stage" hx-trigger="change">
+  {% for stage in stages %}
+  <option value="{{ stage.id }}" {{ "selected" if stage.id == lead.stage_id }}>
+    {{ stage.name }}
+  </option>
+  {% endfor %}
+</select>

@@ -1,0 +1,82 @@
+<form action="/leads/new" method="post">
+  <fieldset>
+    <legend>Lead Values</legend>
+
+    <p>
+      <label for="stage_id">Stage</label>
+      <select name="stage_id" required>
+          <option value="" selected>Choose an option</option>
+        {% for stage in stages %}
+          <option value="{{ stage.id }}">{{ stage.name }}</option>
+        {% endfor %}
+      </select>
+      <span class="error">{{ lead.errors['stage_id'] }}</span>
+    </p>
+
+    <p>
+      <label for="name">Name</label>
+      <input name="name" id="name" type="text" placeholder="Name" value="{{ lead.name or '' }}" required>
+      <span class="error">{{ lead.errors['name'] }}</span>
+    </p>
+
+    <p>
+      <label for="first_name">First Name</label>
+      <input name="first_name" id="first_name" type="text" placeholder="First Name" value="{{ lead.first_name or '' }}" required>
+      <span class="error">{{ lead.errors['first_name'] }}</span>
+    </p>
+
+    <p>
+      <label for="linkedin">Linkedin</label>
+      <input name="linkedin" id="linkedin" type="text" placeholder="Linkedin" value="{{ lead.linkedin or '' }}" required>
+      <span class="error">{{ lead.errors['linkedin'] }}</span>
+    </p>
+
+    <p>
+      <label for="position">Position</label>
+      <input name="position" id="position" type="text" placeholder="Position" value="{{ lead.position or '' }}">
+      <span class="error">{{ lead.errors['position'] }}</span>
+    </p>
+
+    <p>
+      <label for="phone">Phone</label>
+      <input name="phone" id="phone" type="text" placeholder="phone" value="{{ lead.phone or '' }}">
+      <span class="error">{{ lead.errors['phone'] }}</span>
+    </p>
+
+    <p>
+      <label for="email">Email</label>
+      <input name="email" id="email" type="email" placeholder="email" value="{{ lead.email or '' }}">
+      <span class="error">{{ lead.errors['email'] }}</span>
+    </p>
+
+    <p>
+      <label for="company">Company</label>
+      <input name="company" id="company" type="text" placeholder="company" value="{{ lead.company or '' }}">
+      <span class="error">{{ lead.errors['company'] }}</span>
+    </p>
+
+    <p>
+      <label for="location">Location</label>
+      <input name="location" id="location" type="text" placeholder="location" value="{{ lead.location or '' }}">
+      <span class="error">{{ lead.errors['location'] }}</span>
+    </p>
+
+    <p>
+      <label for="headline">Headline</label>
+      <input name="headline" id="headline" type="text" placeholder="headline" value="{{ lead.headline or '' }}">
+      <span class="error">{{ lead.errors['headline'] }}</span>
+    </p>
+
+    <p>
+      <label for="connected">Connected</label>
+      <input name="connected" id="connected" type="date" placeholder="connected" value="{{ lead.connected or '' }}">
+      <span class="error">{{ lead.errors['connected'] }}</span>
+    </p>
+
+    <button>Save</button>
+  </fieldset>
+</form>
+
+<p>
+  <a href="/leads">Back</a>
+</p>

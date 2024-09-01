@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Leads{% endblock %}</h1>
+<a class="action" href="{{ url_for('lead.create_lead') }}">New</a>
+{% endblock %}
+
+{% block content %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Select</th>
+      <th>Stage</th>
+      <th>Name</th>
+      <th>First Name</th>
+      <th>Position</th>
+      <th>Linkedin</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Company</th>
+      <th>Location</th>
+      <th>Headline</th>
+      <th>Connected</th>
+      <th>Last Text</th>
+      <th>Last Email</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for lead in leads %}
+    <tr>
+      <td><input type="checkbox" /></td>
+      <td>
+      <select name="stage_id" hx-put="/leads/{{ lead.id }}/stage" hx-trigger="change" hx-target="body">
+        {% for stage in stages %}
+        <option value="{{ stage.id }}" {{ "selected" if stage.id == lead.stage_id }}>
+          {{ stage.name }}
+        </option>
+        {% endfor %}
+      </select>
+      </td>
+      <td>{{ lead.name }}</td>
+      <td>{{ lead.first_name }}</td>
+      <td>{{ lead.position }}</td>
+      <td><a href="{{ lead.linkedin }}">{{lead.linkedin}}</td>
+      <td>{{ lead.phone }}</td>
+      <td>{{ lead.email }}</td>
+      <td>{{ lead.company }}</td>
+      <td>{{ lead.location }}</td>
+      <td>{{ lead.headline }}</td>
+      <td>{{ lead.connected.strftime("%m-%d-%Y") if lead.connected }}</td>
+      <td>{{ lead.last_text.strftime("%m-%d-%Y") if lead.last_text }}</td>
+      <td>{{ lead.last_email.strftime("%m-%d-%Y") if lead.last_email }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
