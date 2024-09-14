@@ -9,6 +9,7 @@ from flask import (
     url_for,
 )
 
+from flaskr.Role import Role
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
@@ -19,8 +20,24 @@ bp = Blueprint("lead", __name__, url_prefix="/leads")
 @login_required
 def index():
     db = get_db()
-    leads = db.execute("SELECT * FROM lead ORDER BY stage_id ASC").fetchall()
-    stages = db.execute("SELECT id, name FROM stage").fetchall()
+    leads = []
+    if Role.isAdmin(g.user["role_id"]):
+        leads = db.execute("SELECT * FROM lead ORDER BY stage_id ASC").fetchall()
+    if Role.isWorker(g.user["role_id"]):
+        leads = db.execute(
+            "SELECT * FROM lead l JOIN worker_client wc"
+            " ON l.owner_id = wc.client_id"
+            " WHERE wc.worker_id = ?",
+            (g.user["id"],),
+        ).fetchall()
+    if Role.isClient(g.user["role_id"]):
+        leads = db.execute(
+            "SELECT * FROM lead"
+            " WHERE owner_id = ?",
+            (g.user["id"],),
+        ).fetchall()
+
+    stages = db.execute("SELECT * FROM stage").fetchall()
     return render_template("lead/index.html", leads=leads, stages=stages)
 
 
@@ -28,7 +45,7 @@ def index():
 @login_required
 def new_lead():
     db = get_db()
-    stages = db.execute("SELECT id, name FROM stage").fetchall()
+    stages = db.execute("SELECT * FROM stage").fetchall()
     return render_template("lead/new.html", lead={"errors": []}, stages=stages)
 
 

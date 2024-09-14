@@ -9,27 +9,19 @@ class Role(Enum):
 
     @classmethod
     def isAdmin(cls, role_id):
-        if role_id is None:
-            return False
-        elif role_id == cls.ADMIN:
+        if role_id == cls.ADMIN.value:
             return True
-        else:
-            return False
+        return False
 
     @classmethod
     def isWorker(cls, role_id):
-        if role_id is None:
-            return False
-        elif role_id == cls.WORKER:
+        if role_id == cls.WORKER.value:
             return True
-        else:
-            return False
+        return False
 
     @classmethod
     def isClient(cls, role_id):
-        if role_id is None:
-            return False
-        elif role_id == cls.CLIENT:
+        if role_id == cls.CLIENT.value:
             return True
-        else:
-            return False
+        return False
+
