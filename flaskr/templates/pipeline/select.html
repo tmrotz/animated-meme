@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Leads{% endblock %}</h1>
-<a class="action" href="{{ url_for('lead.create_lead') }}">New</a>
+<h1>{% block title %}Pipeline{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-
 <table>
   <thead>
     <tr>
@@ -31,7 +29,7 @@
     <tr>
       <td><input type="checkbox" /></td>
       <td>
-      <select name="stage_id" hx-put="/leads/{{ lead.id }}/stage" hx-trigger="change" hx-target="body">
+        <select name="stage_id" hx-put="/pipeline/{{ lead.pipeline_id }}/lead/{{ lead.id }}" hx-trigger="change" hx-target="body">
         {% for stage in stages %}
         <option value="{{ stage.id }}" {{ "selected" if stage.id == lead.stage_id }}>
           {{ stage.name }}

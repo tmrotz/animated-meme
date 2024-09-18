@@ -1,8 +1,8 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 
-from flaskr import lead
+from flaskr import pipeline
 
 
 def create_app(test_config=None):
@@ -28,9 +28,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
+    @app.route("/")
+    def home():
+        return redirect(url_for("pipeline.index"))
 
     # register the database commands
     from . import db
@@ -42,11 +42,12 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
-    app.register_blueprint(lead.bp)
+    app.register_blueprint(pipeline.bp)
 
     @app.context_processor
     def inject_debug():
         if app.debug is True:
             return dict(debug="true")
+        return {}
 
     return app

@@ -5,7 +5,7 @@ from enum import Enum, unique
 class Role(Enum):
     ADMIN = 1
     WORKER = 2
-    CLIENT = 3
+    CLIENT = 4
 
     @classmethod
     def isAdmin(cls, role_id):

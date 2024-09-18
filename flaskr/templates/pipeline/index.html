@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Pipelines{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div>
+  {% for pipeline in pipelines %}
+  <a href="/pipeline/{{ pipeline.id}}" style="display: block;">
+    {{ pipeline.email }} {{ pipeline.first }} {{ pipeline.last }}
+  </a>
+  {% endfor %}
+</div>
+
+{% endblock %}

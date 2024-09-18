@@ -3,9 +3,9 @@
 
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS worker_client;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS stage;
+DROP TABLE IF EXISTS pipeline;
 DROP TABLE IF EXISTS lead;
 
 CREATE TABLE role (
@@ -15,24 +15,17 @@ CREATE TABLE role (
 
 INSERT INTO role (id, name) VALUES (1, 'admin');
 INSERT INTO role (id, name) VALUES (2, 'worker');
-INSERT INTO role (id, name) VALUES (3, 'client');
+INSERT INTO role (id, name) VALUES (4, 'client');
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  role_id INTEGER NOT NULL DEFAULT 3,
+  role_id INTEGER NOT NULL DEFAULT 4,
   first TEXT NOT NULL,
   last TEXT NOT NULL,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   FOREIGN KEY (role_id) REFERENCES role (id)
-);
-
-CREATE TABLE worker_client (
-  worker_id INTEGER NOT NULL,
-  client_id INTEGER NOT NULL,
-  FOREIGN KEY (worker_id) REFERENCES user (id),
-  FOREIGN KEY (client_id) REFERENCES user (id)
 );
 
 CREATE TABLE post (
@@ -68,11 +61,20 @@ INSERT INTO stage (name) VALUES ('Old Connections');
 INSERT INTO stage (name) VALUES ('Linkedin Talking');
 INSERT INTO stage (name) VALUES ('Email Talking');
 
-CREATE TABLE lead (
+CREATE TABLE pipeline (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   owner_id INTEGER NOT NULL,
+  worker_id INTEGER NOT NULL,
+  FOREIGN KEY (owner_id) REFERENCES user (id),
+  FOREIGN KEY (worker_id) REFERENCES user (id)
+);
+
+CREATE TABLE lead (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   stage_id INTEGER NOT NULL DEFAULT 1,
+  pipeline_id INTEGER NOT NULL,
   name TEXT NOT NULL,
   first_name TEXT NOT NULL,
   linkedin TEXT NOT NULL,
@@ -85,7 +87,7 @@ CREATE TABLE lead (
   connected TIMESTAMP,
   last_text TIMESTAMP,
   last_email TIMESTAMP,
-  FOREIGN KEY (owner_id) REFERENCES user (id),
-  FOREIGN KEY (stage_id) REFERENCES stage (id)
+  FOREIGN KEY (stage_id) REFERENCES stage (id),
+  FOREIGN KEY (pipeline_id) REFERENCES pipeline (id)
 );
 
