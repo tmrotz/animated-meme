@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Admin{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<form action="/pipeline/update" method="post">
+{% for pipeline in pipelines %}
+  <label for="worker">{{ pipeline.id }}</label>
+  <select id="worker">
+  {% for worker in non_clients %}
+    <option value="{{ worker.id }}" {{ "selected" if pipeline.worker_id == worker.id }}>{{ worker.first }} {{ worker.last }}</option>
+  {% endfor %}
+  </select>
+{% endfor %}
+  <button type="submit">Submit</button>
+</form>
+
+<form action="/pipeline/new" method="post">
+  Create New Pipeline
+{% for client in clients %}
+  <label for="client">{{ client.id }} {{ client.first }} {{ client.last }}</label>
+  <select id="client">
+    <option>Select Worker for pipeline</option>
+  {% for worker in non_clients %}
+    <option value="{{ worker.id }}">{{ worker.first }} {{ worker.last }}</option>
+  {% endfor %}
+  </select>
+{% endfor %}
+</form>
+
+{% endblock %}

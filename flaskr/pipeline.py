@@ -1,3 +1,4 @@
+import sqlite3
 from flask import Blueprint, g, redirect, render_template, request, abort, url_for
 
 from flaskr.Role import Role
@@ -61,11 +62,11 @@ def update_stage(pipeline_id: int, lead_id: int):
     return redirect(url_for(".select", pipeline_id=pipeline_id), 303)
 
 
-def get_stages():
+def get_stages() -> list:
     return get_db().execute("SELECT * FROM stage").fetchall()
 
 
-def get_lead(user_id: int, lead_id: int):
+def get_lead(user_id: int, lead_id: int) -> sqlite3.Row:
     lead = None
     db = get_db()
 
@@ -99,7 +100,7 @@ def get_lead(user_id: int, lead_id: int):
     return lead
 
 
-def get_leads(user_id: int, role_id: int, pipeline_id: int):
+def get_leads(user_id: int, role_id: int, pipeline_id: int) -> list:
     db = get_db()
 
     pipeline = db.execute("SELECT * FROM pipeline WHERE id = ?", (pipeline_id,)).fetchone()

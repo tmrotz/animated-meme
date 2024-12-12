@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, redirect, url_for
 
-from flaskr import pipeline
+from flaskr import admin, pipeline
 
 
 def create_app(test_config=None):
@@ -41,6 +41,7 @@ def create_app(test_config=None):
     from . import auth, blog
 
     app.register_blueprint(auth.bp)
+    app.register_blueprint(admin.bp)
     app.register_blueprint(blog.bp)
     app.register_blueprint(pipeline.bp)
 
